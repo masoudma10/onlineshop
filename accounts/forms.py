@@ -39,8 +39,25 @@ class UserChangeForm(forms.ModelForm):
 
 
 
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+
+
+class UserRegisterForm(forms.Form):
+    fname = forms.CharField(label='first name:',widget=forms.TextInput(attrs={'class':'form-control'}))
+    lname = forms.CharField(label='last name',widget=forms.TextInput(attrs={'class':'form-control'}))
+    phone = forms.IntegerField(widget=forms.NumberInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}))
+    password = forms.CharField(label='password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    password2 = forms.CharField(label='confirm password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
 
 
 
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] and cd['password2'] and cd['password'] != cd['password2']:
+            raise forms.ValidationError('passwords must match')
+        return cd['password2']
 
 

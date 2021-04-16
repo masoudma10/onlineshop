@@ -9,7 +9,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=100, unique=True)
     fname = models.CharField(max_length=100)
     lname = models.CharField(max_length=100)
-    phone = models.PositiveIntegerField(max_length=12,null=True,blank=True)
+    phone = models.PositiveBigIntegerField(null=True,blank=True,unique=True)
 
     created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -30,7 +30,8 @@ class User(AbstractBaseUser):
 
     # can user permissions to read models
     def has_module_perms(self, app_label):
-        return True
+        if self.is_admin:
+            return True
 
     # users can be staff
     def is_staff(self):
@@ -43,10 +44,10 @@ class User(AbstractBaseUser):
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     address = models.CharField(max_length=500)
-    home_phone = models.PositiveIntegerField(max_length=13)
-    code_melli = models.PositiveIntegerField(max_length=12)
-    code_post = models.PositiveIntegerField(max_length=15)
-    date_of_birth = models.DateField()
+    home_phone = models.PositiveIntegerField(null=True,blank=True)
+    code_melli = models.PositiveIntegerField(null=True,blank=True)
+    code_post = models.PositiveIntegerField(null=True,blank=True)
+    date_of_birth = models.DateField(null=True,blank=True)
 
 
 
