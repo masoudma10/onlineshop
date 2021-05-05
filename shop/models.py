@@ -13,10 +13,32 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('shop:category',args=[self.slug])
+
+
+
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='scategory')
+    name = models.CharField(max_length=555)
+    slug = models.SlugField(max_length=555,unique=True)
+
+
+    def get_absolute_url(self):
+        return reverse('shop:sub_category',args=[self.slug])
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='products')
+
+    sub_category = models.ForeignKey(SubCategory,on_delete=models.CASCADE,related_name='products')
     name = models.CharField(max_length=500)
     slug = models.SlugField(max_length=500,unique=True)
     code = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)

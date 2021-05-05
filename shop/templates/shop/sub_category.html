@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for product in subcategories.products.all %}
+
+    <div class="card" style="width: 18rem; display: inline-block" >
+        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <h6 class="card-title">Price:{{ product.price }}</h6>
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary">{{ product.name }}</a>
+        </div>
+    </div>
+{% endfor %}
+
+
+
+{% endblock %}
