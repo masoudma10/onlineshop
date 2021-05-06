@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h4>{{ product.name }}</h4>
-    <small>{{ product.created }}</small><p>{{ product.price }}</p><br>
-    <img src="{{ product.image.url }}" alt="" width="400" height="400">
-    <p>{{ product.description }}</p>
-
-
-
-
+    <h3>{{ product.name }}</h3>
+    <small>{{ product.created }}</small><p>{{ product.price }} Toman</p><br/>
+    <img src="{{ product.image.url }}" alt="" width="400px" height="400px">
+    <p>{{ product.description }}</p><br/><br/>
+    <form action="{% url 'cart:cart_add' product.code %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add to cart">
+    </form>
 {% endblock %}
