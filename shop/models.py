@@ -1,6 +1,7 @@
 import uuid
 from django.urls import reverse
 from django.db import models
+from accounts.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -58,6 +59,25 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product_detail', args=[self.slug])
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='ucomment')
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='pcomment')
+    reply = models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True,related_name='rcomment')
+    is_reply = models.BooleanField(default=False)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        ordering = ('-created',)
+
+
+    def __str__(self):
+        return f'{self.user} - {self.body[:30]}'
+
+
 
 
 

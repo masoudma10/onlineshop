@@ -10,4 +10,42 @@
         {{ form }}
         <input type="submit" value="Add to cart">
     </form>
+    <br><br><br>
+    <hr>
+    <h3>Comments:</h3>
+    <p>This Product has {{ comments.count }} comments</p><br><br>
+    {% if request.user.is_authenticated %}
+        <form action="" method="post" novalidate class="col-md-6">
+        {% csrf_token %}
+        {{ form2.as_p }}
+            <input type="submit" value="send" class="btn btn-primary">
+        </form>
+        {% else %}
+            <p>Only login user can say comments</p>
+    {% endif %}
+    <br><br>
+    {% for comment in comments %}
+        <div class="card bg-dark text-white">
+        <p class="card-header">{{ comment.user.fname }} {{ comment.user.lname }} on {{ comment.created|date }} say:</p>
+        <p class="card-body">{{ comment.body }}</p>
+        {% if request.user.is_authenticated %}
+        <div class="card-body" >
+            <form action="{% url 'shop:add_reply' product.code comment.id %}" method="post">
+                {% csrf_token %}
+                {{ reply.as_p }}
+                <input type="submit" value="Send">
+            </form>
+        </div>
+        {% else %}
+            <p>You have to login to send reply</p>
+        {% endif %}
+        {% for reply in comment.rcomment.all %}
+            <p class="bg-primary text-white p-3 m-5">{{ reply.user.fname }} {{ reply.user.lname }} say:<br> {{ reply.body }}</p>
+
+        {% endfor %}
+        </div><br>
+        {% empty %}
+            <p>There is no comment</p>
+    {% endfor %}
+
 {% endblock %}
