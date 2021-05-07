@@ -5,6 +5,8 @@ from .models import User
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 # from .models import Profile
 
 
@@ -55,3 +57,38 @@ class UserLogout(LoginRequiredMixin, View):
 		logout(request)
 		messages.success(request, 'you logged out successfully', 'info')
 		return redirect('shop:home')
+
+
+
+class UserPassReset(auth_views.PasswordResetView):
+	template_name = 'accounts/password_reset_form.html'
+	success_url = reverse_lazy('accounts:password_reset_done')
+	email_template_name = 'accounts/password_reset_email.html'
+
+
+class PasswordResetDone(auth_views.PasswordResetDoneView):
+	template_name = 'accounts/reset_done.html'
+
+
+
+class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
+	template_name = 'accounts/password_reset_confirm.html'
+	success_url = reverse_lazy('accounts:password_reset_complete')
+
+
+class PasswordResetComplete(auth_views.PasswordResetCompleteView):
+	template_name = 'accounts/password_reset_complete.html'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
