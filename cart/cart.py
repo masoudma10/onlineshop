@@ -1,5 +1,5 @@
 from shop.models import Product
-from decimal import Decimal
+
 
 CART_SESSION_ID = 'cart'
 
@@ -27,7 +27,7 @@ class Cart:
 
         for item in cart.values():
 
-            item['total_price'] = Decimal(item['price']) * item['quantity']
+            item['total_price'] = int(item['price']) * item['quantity']
             yield item
 
 
@@ -44,7 +44,7 @@ class Cart:
 
 
     def get_total_price(self):
-        return sum(Decimal(item['price'])*item['quantity'] for item in self.cart.values())
+        return sum(int(item['price'])*item['quantity'] for item in self.cart.values())
 
     def save(self):
         self.session.modified = True

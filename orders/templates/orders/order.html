@@ -5,4 +5,10 @@
 
     <p>Total: {{ order.get_total_price }}</p>
 
+    <form action="{% url 'orders:coupon_apply' order.id %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+        <input type="submit" value="Aplly" class="btn btn-primary">
+    </form>
+    <a href="" class="btn btn-info">Pay</a>
 {% endblock %}
