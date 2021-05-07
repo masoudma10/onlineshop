@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,Profile
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 class UserCreationForm(forms.ModelForm):
@@ -59,5 +59,16 @@ class UserRegisterForm(forms.Form):
         if cd['password'] and cd['password2'] and cd['password'] != cd['password2']:
             raise forms.ValidationError('passwords must match')
         return cd['password2']
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('address','home_phone','date_of_birth','code_melli','code_post')
+
+
+
+
+
 
 

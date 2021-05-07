@@ -1,13 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import UserLoginForm,UserRegisterForm
-from .models import User
+from .forms import UserLoginForm,UserRegisterForm,EditProfileForm
+from .models import User,Profile
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
-# from .models import Profile
+
 
 
 class UserRegister(View):
@@ -78,6 +79,32 @@ class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
 
 class PasswordResetComplete(auth_views.PasswordResetCompleteView):
 	template_name = 'accounts/password_reset_complete.html'
+
+@login_required
+def user_dashboard(request,user_id):
+	user = get_object_or_404(User,id=user_id)
+
+	self_dash = False
+	if request.user.id == user_id:
+		self_dash = True
+	return render(request,'accounts/dashboard.html',{'user':user,'self_dash':self_dash})
+
+@login_required
+def edit_profile(request,user_id):
+	user = get_object_or_404(User,pk=user_id)
+	if request.method == 'POST':
+		form = EditProfileForm(request.POST,instance=user.profile)
+		if form.is_valid():
+			form.save()
+			messages.success(request,'your profile edited successfully','success')
+			return redirect('accounts:user_dashboard',user_id)
+	else:
+		form = EditProfileForm(instance=user.profile)
+		return render(request,'accounts/edit_profile.html',{'form':form})
+
+
+
+
 
 
 

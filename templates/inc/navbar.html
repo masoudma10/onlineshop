@@ -13,13 +13,13 @@
           <li class="nav-item">
           <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'accounts:user_dashboard' request.user.id %}">Profile</a>
+        </li>
           {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
-        </li>
-              <li class="nav-item">
-          <a class="nav-link" href="">phone_Login</a>
-        </li>
+
                   <li class="nav-item">
           <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
         </li>

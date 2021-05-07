@@ -3,10 +3,12 @@ from .cart import Cart
 from shop.models import Product
 from .forms import CartAddForm
 from django.views.decorators.http import require_POST
+from accounts.models import User
 
-def detail(request):
+def detail(request,user_id):
+    user = get_object_or_404(User,pk=user_id)
     cart = Cart(request)
-    return render(request,'cart/detail.html',{'cart':cart})
+    return render(request,'cart/detail.html',{'cart':cart,'user':user})
 
 
 @require_POST
@@ -18,10 +20,10 @@ def cart_add(request,code):
         cd = form.cleaned_data
         cart.add(product=product,quantity=cd['quantity'])
 
-    return redirect('cart:detail')
+    return redirect('cart:detail',request.user.pk)
 
 def cart_remove(request,code):
     cart = Cart(request)
     product = get_object_or_404(Product,code=code)
     cart.remove(product)
-    return redirect('cart:detail')
+    return redirect('cart:detail',request.user.pk)

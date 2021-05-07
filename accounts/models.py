@@ -42,8 +42,8 @@ class User(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    address = models.CharField(max_length=500)
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+    address = models.TextField(blank=True,null=True)
     home_phone = models.PositiveIntegerField(null=True,blank=True)
     code_melli = models.PositiveIntegerField(null=True,blank=True)
     code_post = models.PositiveIntegerField(null=True,blank=True)

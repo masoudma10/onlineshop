@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if self_dash %}
+    <a class="btn btn-primary" href="{% url 'accounts:edit_profile' request.user.id %}">Edit your profile</a>
+        <br><br>
+    <h4>{{ user.fname|capfirst }} Profile:</h4>
+        <hr>
+        <b>Address</b> : {{ user.profile.address }}<br>
+        <b>phone</b> : {{ user.phone }}<br>
+        <b>home_telephone</b> : {{ user.profile.home_phone }}<br>
+        <b>date of birth</b> : {{ user.profile.date_of_birth }}<br>
+        <b>code melli</b> : {{ user.profile.code_melli }}<br>
+        <b>code post</b> : {{ user.profile.code_post }}<br>
+    {% endif %}
+{% endblock %}
