@@ -67,6 +67,27 @@ class EditProfileForm(forms.ModelForm):
         fields = ('address','home_phone','date_of_birth','code_melli','code_post')
 
 
+class PhoneLoginForm(forms.Form):
+    phone = forms.IntegerField()
+
+
+    def clean_phone(self):
+        phone = User.objects.filter(phone=self.cleaned_data['phone'])
+        if not phone.exists():
+            raise forms.ValidationError('phone number does not exist')
+        return self.cleaned_data['phone']
+
+
+class VerifyCodeForm(forms.Form):
+    code = forms.IntegerField()
+
+
+
+
+
+
+
+
 
 
 

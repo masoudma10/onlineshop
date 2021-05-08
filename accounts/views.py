@@ -1,15 +1,16 @@
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import UserLoginForm,UserRegisterForm,EditProfileForm
+from .forms import UserLoginForm,UserRegisterForm,EditProfileForm,PhoneLoginForm,VerifyCodeForm
 from .models import User,Profile
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
-
-
+from random import randint
+from kavenegar import *
 
 class UserRegister(View):
 	form_class = UserRegisterForm
@@ -101,6 +102,41 @@ def edit_profile(request,user_id):
 	else:
 		form = EditProfileForm(instance=user.profile)
 		return render(request,'accounts/edit_profile.html',{'form':form})
+
+
+def phone_login(request):
+	if request.method == 'POST':
+		form = PhoneLoginForm(request.POST)
+		if form.is_valid():
+			phone = f"0{form.cleaned_data['phone']}"
+			rand_num = randint(1000,9999)
+			api = KavenegarAPI('785A784533315867732B6C6E754E4635676F463175515A52376634327A61746F4E6A3966362F38534A4E773D',)
+			params = {'sender': '', 'receptor': phone, 'message': f'login code: {rand_num}',}
+			api.sms_send(params)
+			return redirect('accounts:verify', phone,rand_num)
+
+	else:
+		form = PhoneLoginForm()
+
+	return render(request,'accounts/phone_login.html',{'form':form})
+
+
+def verify(request,phone,rand_num):
+	if request.method == 'POST':
+		form = VerifyCodeForm(request.POST)
+		if form.is_valid():
+			if rand_num == form.cleaned_data['code']:
+				user = get_object_or_404(User,phone=phone)
+
+				login(request,user)
+				messages.success(request,'logged in successfully' 'success')
+				return redirect('shop:home')
+			else:
+				messages.error(request,'Wrong code','danger')
+	else:
+		form = VerifyCodeForm()
+		return render(request,'accounts/verify.html',{'form':form})
+
 
 
 

@@ -8,7 +8,9 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('login/',views.UserLogin.as_view(),name='login'),
+    path('phone_login/',views.phone_login,name='phone_login'),
     path('logout/',views.UserLogout.as_view(),name='logout'),
+    path('verify/<str:phone>/<int:rand_num>/',views.verify,name='verify'),
     path('edit_profile/<int:user_id>/',views.edit_profile,name='edit_profile'),
     path('dashboard/<int:user_id>/',views.user_dashboard,name='user_dashboard'),
     path('register/',views.UserRegister.as_view(),name='register'),
