@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import Category,Product,SubCategory,Comment
 from cart.forms import CartAddForm
-from .forms import AddCommentForm,AddReplyForm
+from .forms import AddCommentForm,AddReplyForm,SearchProductForm
 from django.contrib import messages
 
 
@@ -55,3 +55,54 @@ def add_reply(request,code,comment_id):
             reply.save()
             messages.success(request,'your reply submitted','success')
     return redirect('shop:product_detail',product.slug)
+
+
+
+# def search_product(request,slug):
+#     product = get_object_or_404(Product, slug=slug)
+#     form = SearchProductForm()
+#     if request.method == 'POST':
+#         form = SearchProductForm(request.POST)
+#         if form.is_valid():
+#
+#
+#
+#
+#
+#             product.objects.filter(slug__icontains=slug)
+#             return redirect('shop:product_detail', product.slug)
+#     else:pass
+#     return render(request,'shop/home.html',{'form':form})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

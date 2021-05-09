@@ -10,3 +10,7 @@ class AddReplyForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
+
+
+class SearchProductForm(forms.Form):
+    product = forms.CharField()

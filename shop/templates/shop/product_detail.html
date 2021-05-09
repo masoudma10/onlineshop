@@ -5,11 +5,16 @@
     <small>{{ product.created }}</small><p>{{ product.price }} Toman</p><br/>
     <img src="{{ product.image.url }}" alt="" width="400px" height="400px">
     <p>{{ product.description }}</p><br/><br/>
+
+    {% if request.user.is_authenticated %}
     <form action="{% url 'cart:cart_add' product.code %}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Add to cart">
     </form>
+    {% else %}
+    <h3 style="color: darkred">You must Login or Register To Add this product to cart</h3>
+    {% endif %}
     <br><br><br>
     <hr>
     <h3>Comments:</h3>

@@ -1,14 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,get_object_or_404,redirect
 from .cart import Cart
 from shop.models import Product
 from .forms import CartAddForm
 from django.views.decorators.http import require_POST
 from accounts.models import User
+from django.contrib import messages
 
+@login_required
 def detail(request,user_id):
     user = get_object_or_404(User,pk=user_id)
+    if request.user.profile.address =='' :
+        messages.error(request,'You must complete your profile','danger')
+        return redirect('accounts:edit_profile',user.id )
     cart = Cart(request)
-    return render(request,'cart/detail.html',{'cart':cart,'user':user})
+    return render(request,'cart/detail.html',{'cart':cart})
 
 
 @require_POST

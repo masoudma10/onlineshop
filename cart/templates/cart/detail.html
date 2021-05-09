@@ -34,7 +34,10 @@
 
 
 
+        {% if request.user.profile.address.is_empty %}
+            you must complete your Profile
+        {% else %}
         <a href="{% url 'orders:create' %}" class="btn btn-primary">Checkout</a>
-
+        {% endif %}
 
 {% endblock %}

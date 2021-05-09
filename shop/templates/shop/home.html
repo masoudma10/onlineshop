@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
+{#      <form action="{{ product.get_absolute_url }}" method="post" class="d-flex">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <input type="submit" value="search" class="btn btn-primary">#}
+{#      </form><br><br>#}
+
  {% for category in categories %}
+
+
+
+
 
         <div class="btn-group">
             <a href="{{ category.get_absolute_url }}" class="btn btn-danger">{{ category.name }}</a>
