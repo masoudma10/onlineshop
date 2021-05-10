@@ -26,7 +26,7 @@
             <input type="submit" value="send" class="btn btn-primary">
         </form>
         {% else %}
-            <p>Only login user can say comments</p>
+            <p style="color: red">Only login user can say comments</p>
     {% endif %}
     <br><br>
     {% for comment in comments %}
@@ -42,7 +42,7 @@
             </form>
         </div>
         {% else %}
-            <p>You have to login to send reply</p>
+            <p style="color: red">You have to login to send reply</p>
         {% endif %}
         {% for reply in comment.rcomment.all %}
             <p class="bg-primary text-white p-3 m-5">{{ reply.user.fname }} {{ reply.user.lname }} say:<br> {{ reply.body }}</p>

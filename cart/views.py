@@ -10,7 +10,7 @@ from django.contrib import messages
 @login_required
 def detail(request,user_id):
     user = get_object_or_404(User,pk=user_id)
-    if request.user.profile.address =='' :
+    if request.user.profile.address is None and request.user.profile.home_phone is None and request.user.profile.code_post is None :
         messages.error(request,'You must complete your profile','danger')
         return redirect('accounts:edit_profile',user.id )
     cart = Cart(request)

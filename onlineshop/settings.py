@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'e82w51%-ch#7yb_uaa&59%67spwsud$9oa#0d4_5obc8h%9+=t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['onlineshop-masoud01.fandogh.cloud',]
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -84,11 +85,22 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'shop',
         'USER': 'postgres',
-        'PASSWORD': '3570',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PASSWORD': '35704080',
+        'HOST': 'shop',
+
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'shop',
+#         'USER': 'postgres',
+#         'PASSWORD': '3570',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -132,9 +144,12 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.User'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static/')
+]
 
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static_root/')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -58,22 +58,6 @@ def add_reply(request,code,comment_id):
 
 
 
-# def search_product(request,slug):
-#     product = get_object_or_404(Product, slug=slug)
-#     form = SearchProductForm()
-#     if request.method == 'POST':
-#         form = SearchProductForm(request.POST)
-#         if form.is_valid():
-#
-#
-#
-#
-#
-#             product.objects.filter(slug__icontains=slug)
-#             return redirect('shop:product_detail', product.slug)
-#     else:pass
-#     return render(request,'shop/home.html',{'form':form})
-
 
 
 
