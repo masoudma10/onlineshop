@@ -4,16 +4,19 @@ from .models import Category,Product,SubCategory,Comment
 from cart.forms import CartAddForm
 from .forms import AddCommentForm,AddReplyForm,SearchProductForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def home(request,slug=None):
     products = Product.objects.filter(available=True)
     categories = Category.objects.all()
-
+    paginator = Paginator(products,2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if slug:
         category = get_object_or_404(Category,slug=slug)
         products = products.filter(sub_category__category=category)
-    return render(request,'shop/home.html',{'products':products,'categories':categories})
+    return render(request,'shop/home.html',{'products':products,'categories':categories,'page_obj':page_obj})
 
 
 def product_detail(request, slug):
